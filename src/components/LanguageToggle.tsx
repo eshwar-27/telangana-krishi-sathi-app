@@ -11,7 +11,7 @@ const LanguageToggle: React.FC<LanguageToggleProps> = ({
 }) => {
   return <Button variant="outline" size="sm" onClick={() => setLanguage(language === 'en' ? 'te' : 'en')} aria-label={language === 'en' ? 'Switch to Telugu' : 'Switch to English'} className="flex items-center space-x-2 text-white border-white bg-whitetext-green-700 font-medium">
       <Languages className="h-4 w-4" aria-hidden="true" />
-      <span className="font-semibold">
+      <span className="bg-white ">
         {language === 'en' ? 'తెలుగు' : 'English'}
       </span>
     </Button>;
