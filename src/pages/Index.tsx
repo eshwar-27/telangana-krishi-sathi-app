@@ -213,7 +213,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-4">
               <LanguageToggle language={language} setLanguage={setLanguage} />
-              <Button variant="outline" onClick={() => setCurrentView('home')} aria-label={language === 'te' ? 'హోమ్‌కి వెళ్లండి' : 'Go to Home'} className="">
+              <Button variant="outline" onClick={() => setCurrentView('home')} aria-label={language === 'te' ? 'హోమ్‌కి వెళ్లండి' : 'Go to Home'} className="text-white ">
                 {language === 'te' ? 'హోమ్' : 'Home'}
               </Button>
             </div>
