@@ -8,11 +8,9 @@ import UserProfile from '@/components/UserProfile';
 import AdminDashboard from '@/components/AdminDashboard';
 import LanguageToggle from '@/components/LanguageToggle';
 import VoiceSoilAnalysis from '@/components/VoiceSoilAnalysis';
-
 const Index = () => {
   const [language, setLanguage] = useState('te'); // Default to Telugu for rural users
   const [currentView, setCurrentView] = useState('home');
-
   const translations = {
     en: {
       title: "Telangana Agriculture Advisory Portal",
@@ -55,54 +53,44 @@ const Index = () => {
       iconNav: "సులభంగా వాడుకోవడానికి కింది చిహ్నాలను నొక్కండి"
     }
   };
-
   const t = translations[language];
-
-  const quickServices = [
-    { 
-      id: 'soil', 
-      icon: Leaf, 
-      label: t.soilAnalysis, 
-      color: 'text-green-600 bg-green-50',
-      description: language === 'te' ? 'మట్టి విశ్లేషణ మరియు పంట సిఫార్సులు' : 'Soil analysis & crop suggestions'
-    },
-    { 
-      id: 'voice', 
-      icon: Smartphone, 
-      label: language === 'te' ? 'వాయిస్ విశ్లేషణ' : 'Voice Analysis', 
-      color: 'text-purple-600 bg-purple-50',
-      description: language === 'te' ? 'వాయిస్ ద్వారా మట్టి వివరాలు చెప్పండి' : 'Speak your soil details'
-    },
-    { 
-      id: 'weather', 
-      icon: Globe, 
-      label: t.weather, 
-      color: 'text-blue-600 bg-blue-50',
-      description: language === 'te' ? 'వాతావరణ సమాచారం మరియు హెచ్చరికలు' : 'Weather data & alerts'
-    },
-    { 
-      id: 'supplies', 
-      icon: ShoppingCart, 
-      label: t.supplies, 
-      color: 'text-orange-600 bg-orange-50',
-      description: language === 'te' ? 'ఎరువులు మరియు విత్తనాలు ఆర్డర్ చేయండి' : 'Order fertilizers & seeds'
-    },
-    { 
-      id: 'reports', 
-      icon: FileText, 
-      label: t.reports, 
-      color: 'text-purple-600 bg-purple-50',
-      description: language === 'te' ? 'మీ నివేదికలను చూడండి మరియు డౌన్‌లోడ్ చేయండి' : 'View & download reports'
-    },
-    { 
-      id: 'profile', 
-      icon: User, 
-      label: t.profile, 
-      color: 'text-indigo-600 bg-indigo-50',
-      description: language === 'te' ? 'వ్యక్తిగత వివరాలు మరియు ఆధార్ ధృవీకరణ' : 'Personal details & Aadhaar verification'
-    }
-  ];
-
+  const quickServices = [{
+    id: 'soil',
+    icon: Leaf,
+    label: t.soilAnalysis,
+    color: 'text-green-600 bg-green-50',
+    description: language === 'te' ? 'మట్టి విశ్లేషణ మరియు పంట సిఫార్సులు' : 'Soil analysis & crop suggestions'
+  }, {
+    id: 'voice',
+    icon: Smartphone,
+    label: language === 'te' ? 'వాయిస్ విశ్లేషణ' : 'Voice Analysis',
+    color: 'text-purple-600 bg-purple-50',
+    description: language === 'te' ? 'వాయిస్ ద్వారా మట్టి వివరాలు చెప్పండి' : 'Speak your soil details'
+  }, {
+    id: 'weather',
+    icon: Globe,
+    label: t.weather,
+    color: 'text-blue-600 bg-blue-50',
+    description: language === 'te' ? 'వాతావరణ సమాచారం మరియు హెచ్చరికలు' : 'Weather data & alerts'
+  }, {
+    id: 'supplies',
+    icon: ShoppingCart,
+    label: t.supplies,
+    color: 'text-orange-600 bg-orange-50',
+    description: language === 'te' ? 'ఎరువులు మరియు విత్తనాలు ఆర్డర్ చేయండి' : 'Order fertilizers & seeds'
+  }, {
+    id: 'reports',
+    icon: FileText,
+    label: t.reports,
+    color: 'text-purple-600 bg-purple-50',
+    description: language === 'te' ? 'మీ నివేదికలను చూడండి మరియు డౌన్‌లోడ్ చేయండి' : 'View & download reports'
+  }, {
+    id: 'profile',
+    icon: User,
+    label: t.profile,
+    color: 'text-indigo-600 bg-indigo-50',
+    description: language === 'te' ? 'వ్యక్తిగత వివరాలు మరియు ఆధార్ ధృవీకరణ' : 'Personal details & Aadhaar verification'
+  }];
   const renderContent = () => {
     switch (currentView) {
       case 'soil':
@@ -116,8 +104,7 @@ const Index = () => {
       case 'admin':
         return <AdminDashboard language={language} />;
       case 'supplies':
-        return (
-          <div className="text-center py-16">
+        return <div className="text-center py-16">
             <ShoppingCart className="mx-auto h-16 w-16 text-orange-500 mb-4" />
             <h2 className="text-2xl font-bold mb-4 telugu-text">
               {language === 'te' ? 'సామాగ్రి ఆర్డర్ సేవ త్వరలో వస్తుంది' : 'Supply Ordering Service Coming Soon'}
@@ -125,11 +112,9 @@ const Index = () => {
             <p className="text-gray-600 telugu-text">
               {language === 'te' ? 'ఎరువులు, విత్తనాలు మరియు ఇతర వ్యవసాయ సామాగ్రి ఆన్‌లైన్‌లో ఆర్డర్ చేయండి' : 'Order fertilizers, seeds, and other farming supplies online'}
             </p>
-          </div>
-        );
+          </div>;
       case 'reports':
-        return (
-          <div className="text-center py-16">
+        return <div className="text-center py-16">
             <FileText className="mx-auto h-16 w-16 text-purple-500 mb-4" />
             <h2 className="text-2xl font-bold mb-4 telugu-text">
               {language === 'te' ? 'నివేదికల విభాగం' : 'Reports Section'}
@@ -137,11 +122,9 @@ const Index = () => {
             <p className="text-gray-600 telugu-text">
               {language === 'te' ? 'మీ మట్టి పరీక్ష మరియు పంట సిఫార్సుల నివేదికలను ఇక్కడ చూడవచ్చు' : 'View your soil test and crop recommendation reports here'}
             </p>
-          </div>
-        );
+          </div>;
       default:
-        return (
-          <div className="space-y-8">
+        return <div className="space-y-8">
             {/* Government Header Banner */}
             <div className="gov-header rounded-xl p-8 text-center">
               <div className="flex items-center justify-center mb-4">
@@ -152,11 +135,7 @@ const Index = () => {
                   <p className="text-lg opacity-90 telugu-text">{t.subtitle}</p>
                 </div>
               </div>
-              <Button 
-                onClick={() => setCurrentView('soil')}
-                className="gov-button-secondary text-lg px-8 py-4 mt-4"
-                aria-label={t.getStarted}
-              >
+              <Button onClick={() => setCurrentView('soil')} className="gov-button-secondary text-lg px-8 py-4 mt-4" aria-label={t.getStarted}>
                 <Leaf className="mr-3 h-6 w-6" />
                 <span className="telugu-text">{t.getStarted}</span>
               </Button>
@@ -168,23 +147,16 @@ const Index = () => {
               <p className="text-center text-gray-600 mb-6 telugu-text">{t.iconNav}</p>
               
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {quickServices.map((service) => {
-                  const IconComponent = service.icon;
-                  return (
-                    <button
-                      key={service.id}
-                      onClick={() => setCurrentView(service.id)}
-                      className="gov-card p-6 text-center hover:scale-105 transition-transform duration-200 focus:ring-4 focus:ring-green-300"
-                      aria-label={service.description}
-                    >
+                {quickServices.map(service => {
+                const IconComponent = service.icon;
+                return <button key={service.id} onClick={() => setCurrentView(service.id)} className="gov-card p-6 text-center hover:scale-105 transition-transform duration-200 focus:ring-4 focus:ring-green-300" aria-label={service.description}>
                       <div className={`rounded-full p-4 ${service.color} mx-auto mb-3 w-fit`}>
                         <IconComponent className="h-8 w-8" />
                       </div>
                       <h3 className="font-semibold text-gray-800 mb-2 telugu-text text-lg">{service.label}</h3>
                       <p className="text-sm text-gray-600 telugu-text leading-relaxed">{service.description}</p>
-                    </button>
-                  );
-                })}
+                    </button>;
+              })}
               </div>
             </div>
 
@@ -217,19 +189,13 @@ const Index = () => {
                 {language === 'te' ? 'సహాయం అవసరమా?' : 'Need Help?'}
               </h3>
               <p className="text-gray-600 telugu-text">
-                {language === 'te' ? 
-                  'మీకు ఏదైనా సహాయం అవసరమైతే, మీ సమీప రేషన్ షాప్‌లో లేదా వ్యవసాయ కార్యాలయంలో సంప్రదించండి।' :
-                  'For any assistance, please contact your nearest ration shop or agriculture office.'
-                }
+                {language === 'te' ? 'మీకు ఏదైనా సహాయం అవసరమైతే, మీ సమీప రేషన్ షాప్‌లో లేదా వ్యవసాయ కార్యాలయంలో సంప్రదించండి।' : 'For any assistance, please contact your nearest ration shop or agriculture office.'}
               </p>
             </div>
-          </div>
-        );
+          </div>;
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
+  return <div className="min-h-screen bg-gray-50">
       {/* Accessible Header */}
       <header className="gov-header border-b-4 border-orange-400" role="banner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -247,12 +213,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-4">
               <LanguageToggle language={language} setLanguage={setLanguage} />
-              <Button 
-                variant="outline" 
-                onClick={() => setCurrentView('home')}
-                className="text-white border-white hover:bg-white hover:text-green-700 telugu-text"
-                aria-label={language === 'te' ? 'హోమ్‌కి వెళ్లండి' : 'Go to Home'}
-              >
+              <Button variant="outline" onClick={() => setCurrentView('home')} aria-label={language === 'te' ? 'హోమ్‌కి వెళ్లండి' : 'Go to Home'} className="">
                 {language === 'te' ? 'హోమ్' : 'Home'}
               </Button>
             </div>
@@ -269,15 +230,10 @@ const Index = () => {
       <footer className="bg-gray-800 text-white py-6 mt-12" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="telugu-text">
-            {language === 'te' ? 
-              '© 2024 తెలంగాణ ప్రభుత్వం. అన్ని హక్కులు రక్షిత.' :
-              '© 2024 Government of Telangana. All rights reserved.'
-            }
+            {language === 'te' ? '© 2024 తెలంగాణ ప్రభుత్వం. అన్ని హక్కులు రక్షిత.' : '© 2024 Government of Telangana. All rights reserved.'}
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
