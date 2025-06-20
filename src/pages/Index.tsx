@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import WeatherDashboard from '@/components/WeatherDashboard';
 import UserProfile from '@/components/UserProfile';
 import AdminDashboard from '@/components/AdminDashboard';
 import LanguageToggle from '@/components/LanguageToggle';
+import VoiceSoilAnalysis from '@/components/VoiceSoilAnalysis';
 
 const Index = () => {
   const [language, setLanguage] = useState('te'); // Default to Telugu for rural users
@@ -67,6 +67,13 @@ const Index = () => {
       description: language === 'te' ? 'మట్టి విశ్లేషణ మరియు పంట సిఫార్సులు' : 'Soil analysis & crop suggestions'
     },
     { 
+      id: 'voice', 
+      icon: Smartphone, 
+      label: language === 'te' ? 'వాయిస్ విశ్లేషణ' : 'Voice Analysis', 
+      color: 'text-purple-600 bg-purple-50',
+      description: language === 'te' ? 'వాయిస్ ద్వారా మట్టి వివరాలు చెప్పండి' : 'Speak your soil details'
+    },
+    { 
       id: 'weather', 
       icon: Globe, 
       label: t.weather, 
@@ -93,13 +100,6 @@ const Index = () => {
       label: t.profile, 
       color: 'text-indigo-600 bg-indigo-50',
       description: language === 'te' ? 'వ్యక్తిగత వివరాలు మరియు ఆధార్ ధృవీకరణ' : 'Personal details & Aadhaar verification'
-    },
-    { 
-      id: 'admin', 
-      icon: BarChart3, 
-      label: t.admin, 
-      color: 'text-red-600 bg-red-50',
-      description: language === 'te' ? 'అధికారుల కోసం డాష్‌బోర్డ్' : 'Dashboard for officials'
     }
   ];
 
@@ -107,6 +107,8 @@ const Index = () => {
     switch (currentView) {
       case 'soil':
         return <SoilAnalysis language={language} />;
+      case 'voice':
+        return <VoiceSoilAnalysis language={language} />;
       case 'weather':
         return <WeatherDashboard language={language} />;
       case 'profile':
