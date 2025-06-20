@@ -124,10 +124,23 @@ class OfflineService {
     const transaction = this.db!.transaction(['soilData'], 'readonly');
     const store = transaction.objectStore('soilData');
     const index = store.index('synced');
-    const request = index.getAll(false);
-
+    
     return new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result);
+      const request = index.openCursor();
+      const results: SoilData[] = [];
+      
+      request.onsuccess = () => {
+        const cursor = request.result;
+        if (cursor) {
+          if (!cursor.value.synced) {
+            results.push(cursor.value);
+          }
+          cursor.continue();
+        } else {
+          resolve(results);
+        }
+      };
+      
       request.onerror = () => reject(request.error);
     });
   }
@@ -136,10 +149,23 @@ class OfflineService {
     const transaction = this.db!.transaction(['recommendations'], 'readonly');
     const store = transaction.objectStore('recommendations');
     const index = store.index('synced');
-    const request = index.getAll(false);
-
+    
     return new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result);
+      const request = index.openCursor();
+      const results: CropRecommendation[] = [];
+      
+      request.onsuccess = () => {
+        const cursor = request.result;
+        if (cursor) {
+          if (!cursor.value.synced) {
+            results.push(cursor.value);
+          }
+          cursor.continue();
+        } else {
+          resolve(results);
+        }
+      };
+      
       request.onerror = () => reject(request.error);
     });
   }

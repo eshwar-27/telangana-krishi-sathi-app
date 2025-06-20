@@ -1,38 +1,71 @@
 
-export class VoiceService {
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
+interface SpeechRecognitionResult {
+  transcript: string;
+}
+
+class VoiceService {
+  private recognition: any = null;
   private synthesis: SpeechSynthesis;
-  private recognition: SpeechRecognition | null = null;
-  private teluguVoice: SpeechSynthesisVoice | null = null;
+  private isListening: boolean = false;
 
   constructor() {
     this.synthesis = window.speechSynthesis;
-    this.initializeVoices();
-    this.initializeSpeechRecognition();
+    this.initializeRecognition();
   }
 
-  private initializeVoices() {
-    const loadVoices = () => {
-      const voices = this.synthesis.getVoices();
-      this.teluguVoice = voices.find(voice => 
-        voice.lang.includes('te') || voice.lang.includes('hi')
-      ) || voices[0];
-    };
-
-    loadVoices();
-    this.synthesis.onvoiceschanged = loadVoices;
-  }
-
-  private initializeSpeechRecognition() {
+  private initializeRecognition() {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       this.recognition = new SpeechRecognition();
       this.recognition.continuous = false;
       this.recognition.interimResults = false;
-      this.recognition.lang = 'te-IN'; // Telugu (India)
+      this.recognition.lang = 'te-IN'; // Telugu
     }
   }
 
-  speak(text: string, language: string = 'te'): Promise<void> {
+  async startListening(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!this.recognition) {
+        reject(new Error('Speech recognition not supported'));
+        return;
+      }
+
+      this.isListening = true;
+
+      this.recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        resolve(transcript);
+        this.isListening = false;
+      };
+
+      this.recognition.onerror = (event: any) => {
+        reject(new Error(`Speech recognition error: ${event.error}`));
+        this.isListening = false;
+      };
+
+      this.recognition.onend = () => {
+        this.isListening = false;
+      };
+
+      this.recognition.start();
+    });
+  }
+
+  stopListening() {
+    if (this.recognition && this.isListening) {
+      this.recognition.stop();
+      this.isListening = false;
+    }
+  }
+
+  speak(text: string, language: 'en' | 'te' = 'te'): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!this.synthesis) {
         reject(new Error('Speech synthesis not supported'));
@@ -43,44 +76,20 @@ export class VoiceService {
       utterance.lang = language === 'te' ? 'te-IN' : 'en-US';
       utterance.rate = 0.8;
       utterance.pitch = 1;
-      
-      if (this.teluguVoice) {
-        utterance.voice = this.teluguVoice;
-      }
 
       utterance.onend = () => resolve();
-      utterance.onerror = (error) => reject(error);
+      utterance.onerror = (event) => reject(new Error(`Speech synthesis error: ${event.error}`));
 
       this.synthesis.speak(utterance);
     });
   }
 
-  listen(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (!this.recognition) {
-        reject(new Error('Speech recognition not supported'));
-        return;
-      }
-
-      this.recognition.onresult = (event) => {
-        const result = event.results[0][0].transcript;
-        resolve(result);
-      };
-
-      this.recognition.onerror = (error) => {
-        reject(error);
-      };
-
-      this.recognition.start();
-    });
+  isSupported(): boolean {
+    return !!(this.recognition && this.synthesis);
   }
 
-  stopSpeaking() {
-    this.synthesis.cancel();
-  }
-
-  isSupported() {
-    return !!(this.synthesis && this.recognition);
+  getListeningStatus(): boolean {
+    return this.isListening;
   }
 }
 
